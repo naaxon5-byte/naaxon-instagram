@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Naaxon · símbolo 3D</title>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+    "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js",
+    "three/addons/exporters/OBJExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js",
+    "three/addons/exporters/GLTFExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js"
+  },
+  "integrity": {
+    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
+    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT",
+    "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js": "sha384-4rziNxOBZKQ69i+w+f89KJ55TCYquwchVbByQwmaOeIOXdOU2PLDn3kOfXHwIJC9",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js": "sha384-nbwtoZENJD3Vq+ACK0CuGQdPMuDWHkamC2KJD70EV5nfg6jQjfppKOea07YJN+N3",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js": "sha384-VofkvpG6HERhFCYbsUOHeNXBCqID2nfqkQqnVzE1jc/oPcz+qJ13ADdXH08hE+cQ"
+  }
+}
+</script>
+<style>
+  html, body { margin:0; height:100%; background:#F0F3F1; }
+  three-d-stage:not(:defined) { visibility:hidden; }
+  three-d-stage { display:block; width:100vw; height:100vh; }
+</style>
+</head>
+<body>
+<three-d-stage name="naaxon-neurona" background="#F0F3F1" autorotate></three-d-stage>
+<script src="./three-d-stage.js"></script>
+<script type="module">
+const stage = document.querySelector('three-d-stage');
+const { THREE } = await stage.ready;
+
+const mat = {
+  verde:   new THREE.MeshStandardMaterial({ color:'#2D7A5F', roughness:0.40, metalness:0.14 }),
+  menta:   new THREE.MeshStandardMaterial({ color:'#5FD4A8', roughness:0.34, metalness:0.10 }),
+  hueso:   new THREE.MeshStandardMaterial({ color:'#F0F3F1', roughness:0.52, metalness:0.04 }),
+  tinta:   new THREE.MeshStandardMaterial({ color:'#141B18', roughness:0.28, metalness:0.22 })
+};
+Object.entries(mat).forEach(([k, m]) => m.name = k);
+
+const model = new THREE.Group();
+model.name = 'naaxon_neurona';
+const V = (x, y, z) => new THREE.Vector3(x, y, z);
+
+function add(mesh, name) {
+  mesh.name = name; mesh.castShadow = true; mesh.receiveShadow = true;
+  model.add(mesh); return mesh;
+}
+function knob(p, r, material, name) {
+  const m = new THREE.Mesh(new THREE.SphereGeometry(r, 24, 16), material);
+  m.position.copy(p); return add(m, name);
+}
+// curved, tapering limb: cylinders along a quadratic bezier + joint spheres
+function limb(a, ctrl, b, r0, r1, material, name, segs = 7) {
+  const curve = new THREE.QuadraticBezierCurve3(a, ctrl, b);
+  const pts = curve.getPoints(segs);
+  for (let i = 0; i < segs; i++) {
+    const p = pts[i], q = pts[i + 1];
+    const t0 = i / segs, t1 = (i + 1) / segs;
+    const ra = r0 + (r1 - r0) * t0, rb = r0 + (r1 - r0) * t1;
+    const dir = new THREE.Vector3().subVectors(q, p);
+    const c = new THREE.Mesh(new THREE.CylinderGeometry(rb, ra, dir.length() * 1.02, 20), material);
+    c.position.copy(p).addScaledVector(dir, 0.5);
+    c.quaternion.setFromUnitVectors(V(0, 1, 0), dir.clone().normalize());
+    add(c, name + '_s' + (i + 1));
+    if (i < segs - 1) knob(q, rb * 0.99, material, name + '_j' + (i + 1));
+  }
+  return curve;
+}
+
+// ---- soma
+const soma = new THREE.Mesh(new THREE.SphereGeometry(0.155, 56, 40), mat.verde);
+soma.scale.set(1, 0.92, 0.96);
+add(soma, 'soma');
+const nucleo = new THREE.Mesh(new THREE.SphereGeometry(0.068, 32, 24), mat.tinta);
+nucleo.position.set(0.012, 0.01, 0.03);
+add(nucleo, 'nucleo');
+
+// ---- dendrites: five curved trunks, each bifurcating twice
+const trunks = [
+  { d: V(-0.80,  0.56,  0.16), len: 0.52, bend: V(-0.30,  0.22, 0.10) },
+  { d: V(-0.26,  0.95, -0.14), len: 0.60, bend: V(-0.22,  0.10, 0.16) },
+  { d: V( 0.34,  0.92,  0.22), len: 0.56, bend: V( 0.26,  0.06, 0.06) },
+  { d: V( 0.94,  0.36, -0.18), len: 0.46, bend: V( 0.18, -0.22, 0.12) },
+  { d: V(-0.66, -0.30,  0.46), len: 0.34, bend: V(-0.16, -0.20, 0.14) }
+];
+trunks.forEach((t, i) => {
+  const d = t.d.clone().normalize();
+  const a = d.clone().multiplyScalar(0.12);
+  const b = d.clone().multiplyScalar(0.12 + t.len);
+  const ctrl = a.clone().addScaledVector(d, t.len * 0.5).add(t.bend);
+  limb(a, ctrl, b, 0.046, 0.024, mat.menta, 'dendrita_' + (i + 1));
+  const up = Math.abs(d.y) > 0.9 ? V(1, 0, 0) : V(0, 1, 0);
+  const side = new THREE.Vector3().crossVectors(d, up).normalize();
+  [1, -1].forEach((s, j) => {
+    const cd = d.clone().addScaledVector(side, 0.70 * s).addScaledVector(up, 0.24).normalize();
+    const len2 = 0.26 - 0.05 * j;
+    const c2 = b.clone().addScaledVector(cd, len2);
+    const ct2 = b.clone().addScaledVector(cd, len2 * 0.5).addScaledVector(side, 0.07 * s);
+    limb(b, ct2, c2, 0.023, 0.010, mat.menta, 'rama_' + (i + 1) + '_' + (j + 1), 5);
+    knob(c2, 0.014, mat.menta, 'terminal_' + (i + 1) + '_' + (j + 1));
+    const cd3 = cd.clone().addScaledVector(side, 0.5 * s).addScaledVector(up, 0.3).normalize();
+    const c3 = c2.clone().addScaledVector(cd3, 0.14);
+    limb(c2, c2.clone().addScaledVector(cd3, 0.07), c3, 0.011, 0.006, mat.menta, 'ramita_' + (i + 1) + '_' + (j + 1), 4);
+    knob(c3, 0.009, mat.menta, 'punta_' + (i + 1) + '_' + (j + 1));
+  });
+});
+
+// ---- axon: the long diagonal of the original mark, myelinated
+const axDir = V(0.62, -0.74, 0.10).normalize();
+const axStart = axDir.clone().multiplyScalar(0.12);
+const axEnd = axDir.clone().multiplyScalar(1.28);
+const axCtrl = axDir.clone().multiplyScalar(0.70).add(V(0.10, 0.06, -0.04));
+const axCurve = limb(axStart, axCtrl, axEnd, 0.062, 0.032, mat.verde, 'axon', 9);
+for (let k = 0; k < 6; k++) {
+  const t = 0.14 + k * 0.145;
+  const p = axCurve.getPoint(t);
+  const tan = axCurve.getTangent(t);
+  const r = 0.082 - k * 0.006;
+  const seg = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.105, 30, 1, false), mat.hueso);
+  seg.position.copy(p);
+  seg.quaternion.setFromUnitVectors(V(0, 1, 0), tan);
+  add(seg, 'mielina_' + (k + 1));
+}
+// ---- terminal boutons
+const n1 = new THREE.Vector3().crossVectors(axDir, V(0, 1, 0)).normalize();
+const n2 = new THREE.Vector3().crossVectors(axDir, n1).normalize();
+[[0, 0, 0.20], [0.95, 0.35, 0.17], [-0.75, -0.55, 0.16], [0.25, -0.95, 0.15]].forEach((o, i) => {
+  const cd = axDir.clone().addScaledVector(n1, o[0]).addScaledVector(n2, o[1]).normalize();
+  const c = axEnd.clone().addScaledVector(cd, o[2]);
+  limb(axEnd, axEnd.clone().addScaledVector(cd, o[2] * 0.5), c, 0.026, 0.017, mat.verde, 'terminal_axon_' + (i + 1), 4);
+  knob(c, 0.040, mat.menta, 'boton_' + (i + 1));
+});
+
+// center on origin in x/z, rest on y = 0
+const box = new THREE.Box3().setFromObject(model);
+const ctr = box.getCenter(new THREE.Vector3());
+model.position.set(-ctr.x, -box.min.y, -ctr.z);
+
+stage.setObject(model);
+</script>
+</body>
+</html>
