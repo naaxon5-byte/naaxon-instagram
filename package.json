@@ -1,0 +1,11 @@
+{
+  "name": "naaxon-carruseles",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:presion": "node presion/build.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  }
+}

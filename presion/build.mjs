@@ -41,6 +41,10 @@ for (const slide of slides) {
   const out = join(dist, `naaxon-presion-${n}.png`);
   await slide.screenshot({ path: out, animations: "disabled" });
   console.log("✓", out);
+  // JPEG para la API de Instagram, que no acepta PNG
+  const jpg = out.replace(/\.png$/, ".jpg");
+  await slide.screenshot({ path: jpg, type: "jpeg", quality: 95, animations: "disabled" });
+  console.log("✓", jpg);
 }
 await browser.close();
 console.log("✓", standalone);

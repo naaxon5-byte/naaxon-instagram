@@ -1,0 +1,78 @@
+name: Publicar en Instagram
+
+# Solo se lanza a mano: Actions → «Publicar en Instagram» → Run workflow.
+on:
+  workflow_dispatch:
+    inputs:
+      carpeta:
+        description: "Carpeta del carrusel (con build.mjs y pie-instagram.txt)"
+        default: presion
+        required: true
+      modo:
+        description: "prueba = comprueba todo sin publicar · publicar = sube el post"
+        type: choice
+        options: [prueba, publicar]
+        default: prueba
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publicar-instagram
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      - name: Generar imágenes y pie
+        run: node "${{ inputs.carpeta }}/build.mjs"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ inputs.carpeta }}/dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: carrusel
+          path: ${{ inputs.carpeta }}/dist
+
+  # Instagram descarga las imágenes desde una URL pública: se sirven con GitHub Pages
+  alojar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    outputs:
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+  publicar:
+    needs: alojar
+    runs-on: ubuntu-latest
+    environment: instagram
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: carrusel
+          path: publicado
+      - name: Publicar carrusel
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_API_VERSION: ${{ vars.IG_API_VERSION }}
+          MODO: ${{ inputs.modo }}
+        run: node scripts/publicar-instagram.mjs publicado "${{ needs.alojar.outputs.url }}"
