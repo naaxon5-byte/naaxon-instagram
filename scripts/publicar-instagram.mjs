@@ -1,4 +1,8 @@
-// Publica un carrusel en Instagram con la API de Instagram (inicio de sesión con Instagram).
+// Publica un carrusel (y, si la hay, una historia) en Instagram con la API de
+// Instagram (inicio de sesión con Instagram).
+//
+// Carrusel: los .jpg de la carpeta excepto los que contienen "historia".
+// Historia: el .jpg que contiene "historia" (opcional), publicado tras el carrusel.
 //
 // Uso: node scripts/publicar-instagram.mjs <carpeta-dist> <url-publica-base>
 //
@@ -25,14 +29,18 @@ if (!["prueba", "publicar"].includes(modo)) fail(`MODO desconocido: ${modo}`);
 const api = `https://graph.instagram.com/${version}`;
 const base = baseUrl.replace(/\/?$/, "/");
 
-const imagenes = (await readdir(dir)).filter((f) => f.endsWith(".jpg")).sort();
+const jpgs = (await readdir(dir)).filter((f) => f.endsWith(".jpg")).sort();
+const imagenes = jpgs.filter((f) => !f.includes("historia"));
+const historias = jpgs.filter((f) => f.includes("historia"));
+if (historias.length > 1) fail(`Solo se admite una historia; hay ${historias.length}.`);
+const historia = historias[0];
 if (imagenes.length < 2 || imagenes.length > 10) {
   fail(`Un carrusel necesita entre 2 y 10 imágenes; hay ${imagenes.length} en ${dir}.`);
 }
 const caption = (await readFile(join(dir, "pie-instagram.txt"), "utf8")).trim();
 if (caption.length > 2200) fail(`El pie tiene ${caption.length} caracteres; el máximo es 2200.`);
 
-console.log(`Modo: ${modo} · ${imagenes.length} imágenes · pie de ${caption.length} caracteres`);
+console.log(`Modo: ${modo} · ${imagenes.length} imágenes · pie de ${caption.length} caracteres · ${historia ? "con" : "sin"} historia`);
 
 // 1. Un contenedor por imagen
 const hijos = [];
@@ -53,15 +61,29 @@ const { id: carrusel } = await post(`${userId}/media`, {
 await esperarListo(carrusel);
 console.log(`✓ carrusel ${carrusel} listo`);
 
+// 3. Contenedor de la historia
+let contenedorHistoria;
+if (historia) {
+  const url = base + historia;
+  ({ id: contenedorHistoria } = await post(`${userId}/media`, { media_type: "STORIES", image_url: url }));
+  await esperarListo(contenedorHistoria);
+  console.log(`✓ historia ${contenedorHistoria} lista ← ${url}`);
+}
+
 if (modo === "prueba") {
   console.log("Modo prueba: no se publica. Todo está bien configurado.");
   process.exit(0);
 }
 
-// 3. Publicación
+// 4. Publicación: primero el carrusel, después la historia
 const { id: mediaId } = await post(`${userId}/media_publish`, { creation_id: carrusel });
 const { permalink } = await get(mediaId, { fields: "permalink" });
-console.log(`✓ Publicado: ${permalink ?? mediaId}`);
+console.log(`✓ Carrusel publicado: ${permalink ?? mediaId}`);
+
+if (contenedorHistoria) {
+  const { id: historiaId } = await post(`${userId}/media_publish`, { creation_id: contenedorHistoria });
+  console.log(`✓ Historia publicada: ${historiaId}`);
+}
 
 async function esperarListo(id) {
   for (let intento = 0; intento < 30; intento++) {

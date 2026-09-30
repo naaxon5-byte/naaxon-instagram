@@ -160,6 +160,16 @@
   .s3-sub { color: var(--hueso); max-width: 780px; }
   .s3-pie { align-items: center; gap: 72px; }
   .s3-pregunta { color: var(--blanco); max-width: 760px; }
+  /* Historia · 1080 × 1920. Márgenes superior e inferior amplios para
+     librar la barra de perfil y la de respuesta de Instagram. */
+  .slide--historia {
+    height: 1920px;
+    padding: 260px 96px 300px;
+  }
+  .h-titular { font-size: 148px; }
+  .h-sub { font-size: 58px; }
+  .h-pie .s1-desliza { font-size: 28px; }
+
   .s3-web {
     font-family: var(--sans);
     font-weight: 500;
@@ -224,6 +234,21 @@
     <div class="stack s3-pie">
       <p class="s3-pregunta">¿Dónde notas tú la presión antes de competir?</p>
       <div class="s3-web">naaxon.com</div>
+    </div>
+  </section>
+
+  <section class="slide slide--tinta slide--historia" data-historia="01">
+    <div class="stack s1-top">
+      <div class="volanta">Naaxon · Psicología deportiva</div>
+      <div class="stack s1-body">
+        <h1 class="s1-titular h-titular">Nadie compite sin presión</h1>
+        <div class="s1-separador"></div>
+        <p class="s1-sub h-sub">la diferencia es qué haces con ella</p>
+      </div>
+    </div>
+    <div class="s1-pie h-pie">
+      <div class="s1-desliza">Nuevo post en el perfil</div>
+      <svg class="simbolo" width="120" height="120" role="img" aria-label="Símbolo Naaxon"><use href="#naaxon-simbolo"/></svg>
     </div>
   </section>
 </main>

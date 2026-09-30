@@ -2,7 +2,9 @@
 
 El flujo `.github/workflows/publicar-instagram.yml` genera las imágenes, las aloja
 en GitHub Pages (Instagram necesita descargarlas de una URL pública) y publica el
-carrusel con el texto de `pie-instagram.txt`. Se lanza siempre a mano.
+carrusel con el texto de `pie-instagram.txt`. Si la carpeta incluye una historia
+(una `<section data-historia>` en el HTML, 1080×1920), la publica justo después
+del carrusel. Se lanza siempre a mano.
 
 ## Paso 1 · Cuenta de Instagram profesional
 
@@ -60,4 +62,6 @@ Lo mismo con `modo: publicar`. El log final muestra el enlace al post.
   y actualiza el secret `IG_ACCESS_TOKEN`.
 - **Nuevo carrusel:** copia la carpeta `presion/`, cambia el HTML y el
   `pie-instagram.txt`, y lanza el flujo con esa carpeta en `carpeta`.
-- La API no permite añadir música ni etiquetar productos.
+- La API no permite añadir música ni etiquetar productos, ni stickers, enlaces o
+  encuestas en las historias.
+- Publicar historias por API requiere cuenta de tipo Empresa.

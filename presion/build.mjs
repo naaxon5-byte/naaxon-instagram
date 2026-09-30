@@ -35,10 +35,12 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1200, height: 1450 }, deviceScaleFactor: 1 });
 await page.goto(pathToFileURL(standalone).href);
 await page.evaluate(() => document.fonts.ready);
-const slides = await page.locator("section[data-slide]").all();
+// Diapositivas del carrusel (naaxon-presion-01…) e historias (naaxon-presion-historia-01…)
+const slides = await page.locator("section[data-slide], section[data-historia]").all();
 for (const slide of slides) {
   const n = await slide.getAttribute("data-slide");
-  const out = join(dist, `naaxon-presion-${n}.png`);
+  const nombre = n ? `naaxon-presion-${n}` : `naaxon-presion-historia-${await slide.getAttribute("data-historia")}`;
+  const out = join(dist, `${nombre}.png`);
   await slide.screenshot({ path: out, animations: "disabled" });
   console.log("✓", out);
   // JPEG para la API de Instagram, que no acepta PNG
