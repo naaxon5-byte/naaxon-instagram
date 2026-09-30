@@ -1,0 +1,8 @@
+# Cola de publicación en Instagram.
+#
+# Al subir a main un cambio en este archivo, GitHub publica la carpeta indicada en
+# la primera línea que no empiece por # (carrusel + historia, si la hay).
+# Si el entorno «instagram» tiene «Required reviewers», pide aprobación antes.
+#
+# Ejemplo (sin la almohadilla):
+# presion

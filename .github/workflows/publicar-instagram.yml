@@ -1,11 +1,19 @@
 name: Publicar en Instagram
 
-# Solo se lanza a mano: Actions → «Publicar en Instagram» → Run workflow.
+# Dos formas de lanzarlo:
+#  · Automática: al subir a main un cambio en publicar.txt, publica la carpeta que
+#    indique su primera línea (sin #). Siempre en modo «publicar».
+#  · Manual: Actions → «Publicar en Instagram» → Run workflow (elige carpeta y modo).
+# El paso final usa el entorno «instagram»: si tiene «Required reviewers», GitHub
+# pide aprobación antes de publicar.
 on:
+  push:
+    branches: [main]
+    paths: [publicar.txt]
   workflow_dispatch:
     inputs:
       carpeta:
-        description: "Carpeta del carrusel (con build.mjs y pie-instagram.txt)"
+        description: "Carpeta del carrusel (con su .html y pie-instagram.txt)"
         default: presion
         required: true
       modo:
@@ -24,7 +32,36 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  preparar:
+    runs-on: ubuntu-latest
+    outputs:
+      carpeta: ${{ steps.datos.outputs.carpeta }}
+      modo: ${{ steps.datos.outputs.modo }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: datos
+        env:
+          CARPETA_MANUAL: ${{ inputs.carpeta }}
+          MODO_MANUAL: ${{ inputs.modo }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            carpeta="$CARPETA_MANUAL"; modo="$MODO_MANUAL"
+          else
+            carpeta="$(grep -vE '^[[:space:]]*(#|$)' publicar.txt | head -n 1 | tr -d '[:space:]' || true)"
+            modo=publicar
+          fi
+          if [ -z "$carpeta" ]; then
+            echo "publicar.txt no indica ninguna carpeta: no se publica nada."
+          elif ! [[ "$carpeta" =~ ^[a-z0-9-]+$ ]] || [ ! -f "$carpeta/pie-instagram.txt" ]; then
+            echo "::error::La carpeta «$carpeta» no existe o no tiene pie-instagram.txt."; exit 1
+          fi
+          echo "Carpeta: ${carpeta:-(ninguna)} · Modo: $modo"
+          echo "carpeta=$carpeta" >> "$GITHUB_OUTPUT"
+          echo "modo=$modo" >> "$GITHUB_OUTPUT"
+
   construir:
+    needs: preparar
+    if: needs.preparar.outputs.carpeta != ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,14 +71,14 @@ jobs:
       - run: npm install
       - run: npx playwright install --with-deps chromium
       - name: Generar imágenes y pie
-        run: node "${{ inputs.carpeta }}/build.mjs"
+        run: node scripts/build.mjs "${{ needs.preparar.outputs.carpeta }}"
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ inputs.carpeta }}/dist
+          path: ${{ needs.preparar.outputs.carpeta }}/dist
       - uses: actions/upload-artifact@v4
         with:
           name: carrusel
-          path: ${{ inputs.carpeta }}/dist
+          path: ${{ needs.preparar.outputs.carpeta }}/dist
 
   # Instagram descarga las imágenes desde una URL pública: se sirven con GitHub Pages
   alojar:
@@ -57,7 +94,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   publicar:
-    needs: alojar
+    needs: [preparar, alojar]
     runs-on: ubuntu-latest
     environment: instagram
     steps:
@@ -74,5 +111,5 @@ jobs:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_API_VERSION: ${{ vars.IG_API_VERSION }}
-          MODO: ${{ inputs.modo }}
+          MODO: ${{ needs.preparar.outputs.modo }}
         run: node scripts/publicar-instagram.mjs publicado "${{ needs.alojar.outputs.url }}"

@@ -1,0 +1,38 @@
+name: Renovar token de Instagram
+
+# El token de Instagram caduca a los 60 días. Este flujo lo renueva cada mes y
+# guarda el nuevo en el secret IG_ACCESS_TOKEN del entorno «instagram».
+# Necesita el secret GH_SECRETS_TOKEN (token de GitHub con permiso para escribir
+# secrets; ver AUTOMATIZACION.md). Si falla, GitHub te avisa por correo.
+on:
+  schedule:
+    - cron: "17 8 1 * *" # día 1 de cada mes, 08:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  renovar:
+    runs-on: ubuntu-latest
+    environment: instagram
+    steps:
+      - name: Renovar y guardar
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_SECRETS_TOKEN }}
+          IG_API_VERSION: ${{ vars.IG_API_VERSION }}
+        run: |
+          if [ -z "$IG_ACCESS_TOKEN" ]; then echo "::error::Falta el secret IG_ACCESS_TOKEN."; exit 1; fi
+          if [ -z "$GH_TOKEN" ]; then echo "::error::Falta el secret GH_SECRETS_TOKEN (ver AUTOMATIZACION.md)."; exit 1; fi
+          respuesta="$(curl -sS -G "https://graph.instagram.com/refresh_access_token" \
+            --data-urlencode "grant_type=ig_refresh_token" \
+            --data-urlencode "access_token=$IG_ACCESS_TOKEN")"
+          nuevo="$(echo "$respuesta" | jq -r '.access_token // empty')"
+          if [ -z "$nuevo" ]; then
+            echo "::error::Instagram no devolvió un token: $(echo "$respuesta" | jq -c '.error // .')"; exit 1
+          fi
+          echo "::add-mask::$nuevo"
+          gh secret set IG_ACCESS_TOKEN --env instagram --repo "${{ github.repository }}" --body "$nuevo"
+          dias=$(( $(echo "$respuesta" | jq -r '.expires_in') / 86400 ))
+          echo "✓ Token renovado. Caduca dentro de $dias días."

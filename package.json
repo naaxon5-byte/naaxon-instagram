@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:presion": "node presion/build.mjs"
+    "build": "node scripts/build.mjs"
   },
   "devDependencies": {
     "playwright": "1.56.1"
