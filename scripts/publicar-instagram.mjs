@@ -42,6 +42,10 @@ if (caption.length > 2200) fail(`El pie tiene ${caption.length} caracteres; el m
 
 console.log(`Modo: ${modo} · ${imagenes.length} imágenes · pie de ${caption.length} caracteres · ${historia ? "con" : "sin"} historia`);
 
+// 0. GitHub Pages puede tardar unos segundos en servir los archivos recién
+// desplegados: espera a que cada imagen responda como JPEG antes de seguir.
+for (const nombre of [...imagenes, ...(historia ? [historia] : [])]) await esperarUrl(base + nombre);
+
 // 1. Un contenedor por imagen
 const hijos = [];
 for (const nombre of imagenes) {
@@ -85,6 +89,18 @@ if (contenedorHistoria) {
   console.log(`✓ Historia publicada: ${historiaId}`);
 }
 
+async function esperarUrl(url) {
+  for (let intento = 0; intento < 24; intento++) {
+    const res = await fetch(url, { method: "HEAD" }).catch(() => null);
+    if (res?.ok && (res.headers.get("content-type") ?? "").startsWith("image/jpeg")) {
+      console.log(`✓ accesible ${url}`);
+      return;
+    }
+    await new Promise((r) => setTimeout(r, 5000));
+  }
+  fail(`La imagen no está accesible tras 2 minutos: ${url}`);
+}
+
 async function esperarListo(id) {
   for (let intento = 0; intento < 30; intento++) {
     const { status_code } = await get(id, { fields: "status_code" });
@@ -96,11 +112,20 @@ async function esperarListo(id) {
 }
 
 async function post(path, params) {
-  return pedir(`${api}/${path}`, { method: "POST", body: new URLSearchParams({ ...params, access_token: token }) });
+  // Código 9004: Instagram no pudo descargar la imagen; suele ser transitorio.
+  for (let intento = 1; ; intento++) {
+    try {
+      return await pedir(`${api}/${path}`, { method: "POST", body: new URLSearchParams({ ...params, access_token: token }) });
+    } catch (e) {
+      if (e.codigo !== 9004 || intento >= 4) fail(e.message);
+      console.log(`… Instagram no pudo leer la imagen (intento ${intento}); reintento en 15 s`);
+      await new Promise((r) => setTimeout(r, 15000));
+    }
+  }
 }
 
 async function get(path, params) {
-  return pedir(`${api}/${path}?${new URLSearchParams({ ...params, access_token: token })}`);
+  return pedir(`${api}/${path}?${new URLSearchParams({ ...params, access_token: token })}`).catch((e) => fail(e.message));
 }
 
 async function pedir(url, opciones) {
@@ -108,7 +133,9 @@ async function pedir(url, opciones) {
   const datos = await res.json().catch(() => ({}));
   if (!res.ok || datos.error) {
     const e = datos.error ?? {};
-    fail(`Error de la API (${res.status}): ${e.message ?? res.statusText} [tipo ${e.type ?? "?"}, código ${e.code ?? "?"}]`);
+    const err = new Error(`Error de la API (${res.status}): ${e.message ?? res.statusText} [tipo ${e.type ?? "?"}, código ${e.code ?? "?"}]`);
+    err.codigo = e.code;
+    throw err;
   }
   return datos;
 }
