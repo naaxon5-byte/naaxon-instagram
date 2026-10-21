@@ -1,0 +1,187 @@
+{
+  "accion": "estadisticas",
+  "parametros": {
+    "limite": 8,
+    "dias": 28
+  },
+  "fecha": "2026-10-21T17:24:04.853Z",
+  "avisos": [],
+  "datos": {
+    "periodo_dias": 28,
+    "cuenta": {
+      "reach": {
+        "value": 223
+      },
+      "views": {
+        "value": 799
+      },
+      "accounts_engaged": {
+        "value": 24
+      },
+      "total_interactions": {
+        "value": 54
+      },
+      "likes": {
+        "value": 44
+      },
+      "comments": {
+        "value": 0
+      },
+      "saves": {
+        "value": 2
+      },
+      "shares": {
+        "value": 0
+      },
+      "profile_links_taps": {
+        "value": 0
+      }
+    },
+    "publicaciones": [
+      {
+        "id": "18420239761157617",
+        "fecha": "2026-10-13T21:58:50+0000",
+        "tipo": "REELS",
+        "enlace": "https://www.instagram.com/reel/Dec05vsoKic/",
+        "texto": "Tu winter arc no empieza en el gimnasio. Empieza en tu mente.",
+        "me_gusta": 18,
+        "comentarios": 0,
+        "estadisticas": {
+          "reach": 207,
+          "views": 320,
+          "likes": 18,
+          "comments": 0,
+          "saved": 2,
+          "shares": 0,
+          "total_interactions": 24
+        }
+      },
+      {
+        "id": "18086312153315144",
+        "fecha": "2026-09-30T17:42:20+0000",
+        "tipo": "FEED",
+        "enlace": "https://www.instagram.com/p/Dd65VVjm5Zn/",
+        "texto": "Nadie compite sin presión. La diferencia es qué haces con ella.",
+        "me_gusta": 10,
+        "comentarios": 0,
+        "estadisticas": {
+          "reach": 33,
+          "views": 92,
+          "likes": 10,
+          "comments": 0,
+          "saved": 0,
+          "shares": 0,
+          "total_interactions": 13
+        }
+      },
+      {
+        "id": "18178403725437718",
+        "fecha": "2026-09-22T08:27:54+0000",
+        "tipo": "FEED",
+        "enlace": "https://www.instagram.com/p/DdlTjfQCAk3/",
+        "texto": "“Este año quiero ganar la liga.”",
+        "me_gusta": 17,
+        "comentarios": 0,
+        "estadisticas": {
+          "reach": 45,
+          "views": 139,
+          "likes": 17,
+          "comments": 0,
+          "saved": 1,
+          "shares": 0,
+          "total_interactions": 21
+        }
+      },
+      {
+        "id": "18125704957697908",
+        "fecha": "2026-09-14T16:38:38+0000",
+        "tipo": "FEED",
+        "enlace": "https://www.instagram.com/p/DdRk0Y4Iig3/",
+        "texto": "Esta semana he preparado una primera sesión.",
+        "me_gusta": 21,
+        "comentarios": 0,
+        "estadisticas": {
+          "reach": 123,
+          "views": 290,
+          "likes": 21,
+          "comments": 0,
+          "saved": 1,
+          "shares": 0,
+          "total_interactions": 24
+        }
+      },
+      {
+        "id": "18021266918868988",
+        "fecha": "2026-09-08T22:29:08+0000",
+        "tipo": "FEED",
+        "enlace": "https://www.instagram.com/p/DdCwsrVCNFm/",
+        "texto": "Los planes de entrenamiento no se rompen el día que fallas. Se rompen el siguiente.",
+        "me_gusta": 14,
+        "comentarios": 0,
+        "estadisticas": {
+          "reach": 79,
+          "views": 201,
+          "likes": 14,
+          "comments": 0,
+          "saved": 0,
+          "shares": 1,
+          "total_interactions": 15
+        }
+      },
+      {
+        "id": "18192851332387205",
+        "fecha": "2026-09-03T21:46:38+0000",
+        "tipo": "FEED",
+        "enlace": "https://www.instagram.com/p/Dc1zpAcozvM/",
+        "texto": "Mucha gente se imagina que la psicología deportiva es una charla motivadora antes de compe",
+        "me_gusta": 19,
+        "comentarios": 0,
+        "estadisticas": {
+          "reach": 91,
+          "views": 246,
+          "likes": 19,
+          "comments": 0,
+          "saved": 0,
+          "shares": 0,
+          "total_interactions": 19
+        }
+      },
+      {
+        "id": "17915896353443793",
+        "fecha": "2026-08-27T22:38:03+0000",
+        "tipo": "FEED",
+        "enlace": "https://www.instagram.com/p/Dcj4LdxCFle/",
+        "texto": "Hay una trampa con la confianza y casi nadie la ve.",
+        "me_gusta": 14,
+        "comentarios": 0,
+        "estadisticas": {
+          "reach": 51,
+          "views": 190,
+          "likes": 14,
+          "comments": 0,
+          "saved": 0,
+          "shares": 0,
+          "total_interactions": 15
+        }
+      },
+      {
+        "id": "18339190783250324",
+        "fecha": "2026-08-24T21:20:01+0000",
+        "tipo": "FEED",
+        "enlace": "https://www.instagram.com/p/DccAgBIIJ7f/",
+        "texto": "Hoy no tenía ganas de entrenar. Y he entrenado.",
+        "me_gusta": 20,
+        "comentarios": 0,
+        "estadisticas": {
+          "reach": 84,
+          "views": 238,
+          "likes": 20,
+          "comments": 0,
+          "saved": 0,
+          "shares": 0,
+          "total_interactions": 22
+        }
+      }
+    ]
+  }
+}
