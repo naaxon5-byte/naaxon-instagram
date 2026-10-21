@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Rutina de 3 minutos antes de competir · Naaxon</title>
+<style>
+  @font-face { font-family: "Lora"; font-weight: 400 700; src: url("../../fonts/lora-latin.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 100 900; src: url("../../fonts/inter-latin.woff2") format("woff2"); }
+  :root {
+    --tinta: #141B18; --menta: #5FD4A8; --verde: #2D7A5F; --hueso: #F0F3F1;
+    --gris-tinta: #7C8A85; --gris-hueso: #58635E;
+    --serif: Lora, Georgia, serif; --sans: Inter, sans-serif;
+  }
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: var(--serif); color: var(--tinta); }
+  .pagina {
+    width: 210mm; height: 297mm; box-sizing: border-box; position: relative;
+    break-after: page; overflow: hidden; background: var(--hueso);
+  }
+  .pagina:last-child { break-after: auto; }
+  .volanta { font-family: var(--sans); font-weight: 600; font-size: 9pt; letter-spacing: 0.22em; text-transform: uppercase; }
+
+  /* Página 1 */
+  .cabecera { background: var(--tinta); color: #fff; padding: 18mm 20mm 12mm; }
+  .cabecera .volanta { color: var(--menta); }
+  .cabecera h1 { margin: 7mm 0 0; font-weight: 700; font-size: 32pt; line-height: 1.02; letter-spacing: -0.02em; }
+  .sep { width: 18mm; height: 1.2mm; background: var(--menta); margin: 7mm 0 6mm; }
+  .cabecera .sub { margin: 0; font-size: 14pt; line-height: 1.35; color: var(--menta); max-width: 140mm; }
+  .cuerpo { padding: 10mm 20mm 0; }
+  .intro { margin: 0 0 7mm; font-size: 11.5pt; line-height: 1.6; color: var(--gris-hueso); font-family: var(--sans); }
+  .paso { display: grid; grid-template-columns: 10mm 1fr; gap: 0 4mm; margin-bottom: 6mm; }
+  .guion { width: 8mm; height: 0.9mm; background: var(--verde); margin-top: 2.2mm; }
+  .paso .volanta { color: var(--verde); }
+  .paso h2 { margin: 2mm 0 2mm; font-weight: 700; font-size: 17pt; line-height: 1.2; }
+  .paso p { margin: 0; font-size: 11.5pt; line-height: 1.55; }
+  .paso p + p { margin-top: 2mm; }
+  .pie-pag { position: absolute; left: 20mm; right: 20mm; bottom: 12mm; display: flex; justify-content: space-between; align-items: center; color: var(--gris-hueso); }
+
+  /* Página 2 */
+  .p2 { padding: 22mm 20mm 0; }
+  .p2 .volanta { color: var(--verde); }
+  .p2 h2 { margin: 6mm 0 7mm; font-weight: 700; font-size: 24pt; line-height: 1.1; letter-spacing: -0.01em; }
+  .lista { margin: 0 0 10mm; padding: 0; list-style: none; }
+  .lista li { display: grid; grid-template-columns: 10mm 1fr; gap: 0 4mm; margin-bottom: 5mm; font-size: 11.5pt; line-height: 1.55; }
+  .lista li::before { content: ""; width: 8mm; height: 0.9mm; background: var(--verde); margin-top: 2.6mm; }
+  .clave { border: 0.4mm solid var(--verde); padding: 7mm 8mm 8mm; margin-bottom: 10mm; }
+  .clave h3 { margin: 3mm 0 3mm; font-size: 14pt; }
+  .clave p { margin: 0 0 7mm; font-size: 11pt; line-height: 1.5; color: var(--gris-hueso); font-family: var(--sans); }
+  .linea { border-bottom: 0.3mm solid var(--gris-tinta); height: 9mm; }
+  .nota { font-family: var(--sans); font-size: 9pt; line-height: 1.55; color: var(--gris-hueso); margin: 0; }
+  .cierre { position: absolute; left: 0; right: 0; bottom: 0; background: var(--verde); color: #fff; padding: 12mm 20mm 14mm; display: flex; justify-content: space-between; align-items: center; }
+  .cierre h3 { margin: 0 0 3mm; font-size: 17pt; line-height: 1.2; }
+  .cierre p { margin: 0; font-family: var(--sans); font-size: 10.5pt; line-height: 1.5; color: var(--hueso); }
+  .cierre .web { margin-top: 4mm; font-family: var(--sans); font-weight: 500; font-size: 9pt; letter-spacing: 0.2em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="naaxon-simbolo" viewBox="0 0 200 200">
+    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke-width="9" d="M84 96 Q52 68 28 56 M84 96 Q70 60 66 24 M84 96 Q100 62 116 32 M84 96 Q124 74 158 64 M84 96 Q56 118 34 132"/>
+      <path stroke-width="6" d="M28 56 L14 36 M28 56 L36 32 M66 24 L52 8 M116 32 L134 16 M158 64 L182 50 M34 132 L18 150"/>
+      <path stroke-width="17" d="M84 96 Q136 128 158 172"/>
+      <path stroke-width="7" d="M158 172 L180 162 M158 172 L166 192"/>
+    </g>
+    <circle cx="84" cy="96" r="19" fill="currentColor"/>
+    <circle cx="180" cy="162" r="7" fill="currentColor"/>
+    <circle cx="166" cy="192" r="7" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<section class="pagina">
+  <header class="cabecera">
+    <div class="volanta">Naaxon · Psicología deportiva</div>
+    <h1>Rutina de 3 minutos antes de competir</h1>
+    <div class="sep"></div>
+    <p class="sub">Una guía breve para llegar centrado al momento de competir. No perfecto: centrado.</p>
+  </header>
+  <div class="cuerpo">
+    <p class="intro">Los minutos previos a competir suelen traer nervios, dudas y pensamientos del tipo «¿y si sale mal?». Es normal: el cuerpo se activa para rendir. Esta rutina no pretende eliminar esa activación, sino ayudarte a dirigir la atención hacia lo que depende de ti.</p>
+
+    <div class="paso"><span class="guion"></span><div>
+      <div class="volanta">Minuto 1</div>
+      <h2>Respira</h2>
+      <p>Inhala por la nariz contando 4 y suelta el aire despacio contando 6. Repítelo cinco veces.</p>
+      <p>Alargar la salida del aire ayuda a bajar un punto la activación sin apagarte.</p>
+    </div></div>
+
+    <div class="paso"><span class="guion"></span><div>
+      <div class="volanta">Minuto 2</div>
+      <h2>Nombra lo que sientes</h2>
+      <p>Descríbelo en una frase neutra: «noto el corazón rápido, estoy activado». Nombrarlo en lugar de pelearte con ello le quita peso.</p>
+      <p>Evita etiquetas como «estoy fatal» o «hoy no es mi día»: no describen lo que pasa, lo juzgan.</p>
+    </div></div>
+
+    <div class="paso"><span class="guion"></span><div>
+      <div class="volanta">Minuto 3</div>
+      <h2>Tu primera acción</h2>
+      <p>Elige una acción concreta y controlable para el inicio: la primera salida, el primer saque, los primeros metros. Visualízala con detalle: dónde estás, qué ves, qué haces.</p>
+      <p>Termina con tu palabra clave, la que te devuelve a esa acción.</p>
+    </div></div>
+  </div>
+  <div class="pie-pag">
+    <span class="volanta">naaxon.com</span>
+    <svg width="34" height="34" style="color:var(--verde)"><use href="#naaxon-simbolo"/></svg>
+  </div>
+</section>
+
+<section class="pagina">
+  <div class="p2">
+    <div class="volanta">Cómo entrenarla</div>
+    <h2>La calma no se improvisa. Se ensaya.</h2>
+    <ul class="lista">
+      <li><span>Practícala en los entrenamientos varias veces por semana antes de usarla en competición.</span></li>
+      <li><span>Hazla siempre igual: misma secuencia, mismo orden. La repetición la vuelve automática.</span></li>
+      <li><span>Si te despistas, no pasa nada: vuelve al paso en el que estabas.</span></li>
+      <li><span>Adáptala a tu deporte. Si solo tienes un minuto, quédate con el paso 3.</span></li>
+    </ul>
+
+    <div class="clave">
+      <div class="volanta" style="color:var(--verde)">Tu palabra clave</div>
+      <h3>Una o dos palabras que te devuelvan a tu primera acción</h3>
+      <p>Por ejemplo: «suelto», «firme», «ahora». Escríbela aquí y úsala siempre la misma.</p>
+      <div class="linea"></div>
+    </div>
+
+    <p class="nota">Esta guía es una herramienta general de preparación mental y no sustituye una intervención individual. Si los nervios te bloquean de forma habitual o te generan malestar, trabajarlo con un profesional puede ayudarte.</p>
+  </div>
+
+  <footer class="cierre">
+    <div>
+      <h3>¿Quieres trabajarlo de forma personalizada?</h3>
+      <p>Escríbeme por mensaje en Instagram: @naaxon.psico</p>
+      <div class="web">naaxon.com</div>
+    </div>
+    <svg width="64" height="64" style="color:#fff"><use href="#naaxon-simbolo"/></svg>
+  </footer>
+</section>
+</body>
+</html>
