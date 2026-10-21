@@ -1,0 +1,10 @@
+{
+  "accion": "comentarios",
+  "parametros": {
+    "limite": 8,
+    "dias": 28
+  },
+  "fecha": "2026-10-21T17:24:15.019Z",
+  "avisos": [],
+  "datos": []
+}
