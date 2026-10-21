@@ -48,9 +48,28 @@ en español.
 4. Solo con ese visto bueno: pon `<carpeta>` como primera línea sin `#` de
    `publicar.txt`, haz commit en `main` y push. Eso publica en Instagram.
 
+## Centro de control de Instagram
+
+Desde este entorno no hay acceso directo a la API de Instagram: todo pasa por el
+flujo `.github/workflows/instagram.yml`, que Claude lanza con `gh api`:
+
+```
+gh api -X POST repos/naaxon5-byte/naaxon-instagram/actions/workflows/instagram.yml/dispatches \
+  -f ref=main -f 'inputs[accion]=estadisticas' -f 'inputs[parametros]={"limite":8,"dias":7}'
+```
+
+Acciones: `perfil`, `publicaciones`, `estadisticas`, `comentarios`, `mensajes`
+(lectura) y `responder`, `responder-mensaje` (escritura, pasan por la aprobación
+del entorno `instagram`). El resultado queda en la rama `datos`:
+`git fetch origin datos && git show origin/datos:datos/ultimo-<accion>.json`.
+Código: `scripts/instagram.mjs`. Los secrets `IG_ACCESS_TOKEN` e `IG_USER_ID` están
+a nivel de repositorio.
+
 ## Reglas
 
 - **Nunca** modifiques `publicar.txt` ni lances una publicación sin aprobación
   explícita de la persona usuaria en esa conversación: publicar es público.
+- Lo mismo para `responder` y `responder-mensaje`: enseña antes el texto exacto y
+  espera el visto bueno. Las acciones de lectura se pueden lanzar libremente.
 - No escribas tokens ni secrets en el repositorio ni en el chat.
 - Los textos de salud mental: sobrios, sin prometer resultados ni diagnosticar.

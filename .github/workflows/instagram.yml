@@ -1,0 +1,67 @@
+name: Instagram (centro de control)
+
+# Lo lanza Claude (o tú) con una acción y parámetros. El resultado se guarda como
+# JSON en la rama «datos», carpeta datos/. Las acciones de escritura (responder)
+# pasan por el entorno «instagram», que pide tu aprobación si tiene reviewers.
+on:
+  workflow_dispatch:
+    inputs:
+      accion:
+        description: "Qué hacer"
+        type: choice
+        options: [perfil, publicaciones, estadisticas, comentarios, mensajes, responder, responder-mensaje]
+        default: perfil
+      parametros:
+        description: 'Parámetros en JSON, p. ej. {"limite": 10}'
+        default: "{}"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instagram-datos
+  cancel-in-progress: false
+
+jobs:
+  leer:
+    if: ${{ !startsWith(inputs.accion, 'responder') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Consultar Instagram
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_API_VERSION: ${{ vars.IG_API_VERSION }}
+          ACCION: ${{ inputs.accion }}
+          PARAMS: ${{ inputs.parametros }}
+        run: node scripts/instagram.mjs "$ACCION" "$PARAMS" "$RUNNER_TEMP/resultado.json"
+      - name: Guardar en la rama datos
+        env:
+          ACCION: ${{ inputs.accion }}
+        run: bash scripts/guardar-datos.sh "$RUNNER_TEMP/resultado.json" "$ACCION"
+
+  escribir:
+    if: ${{ startsWith(inputs.accion, 'responder') }}
+    runs-on: ubuntu-latest
+    environment: instagram
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Actuar en Instagram
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_API_VERSION: ${{ vars.IG_API_VERSION }}
+          ACCION: ${{ inputs.accion }}
+          PARAMS: ${{ inputs.parametros }}
+        run: node scripts/instagram.mjs "$ACCION" "$PARAMS" "$RUNNER_TEMP/resultado.json"
+      - name: Guardar en la rama datos
+        env:
+          ACCION: ${{ inputs.accion }}
+        run: bash scripts/guardar-datos.sh "$RUNNER_TEMP/resultado.json" "$ACCION"
