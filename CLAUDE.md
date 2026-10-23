@@ -36,11 +36,13 @@ en español.
 - Serie de 3 diapositivas: 01 portada (fondo tinta, volanta, titular, separador
   menta, subtítulo, «Desliza» + símbolo) · 02 desarrollo (fondo hueso, tres líneas
   con guion verde, pie gris) · 03 cierre (fondo verde, símbolo, titular, pregunta,
-  «naaxon.com»). Parte de `presion/` como plantilla.
+  «naaxon.com»). Parte de `rutina-precompeticion/` como plantilla: su portada
+  (`portada-centrada`) lleva el titular centrado en vertical, que se ve mejor en
+  la cuadrícula del perfil (Instagram la recorta a 3:4).
 
 ## Flujo para una publicación nueva
 
-1. Crea `<carpeta>/` copiando `presion/` (nombre en minúsculas y guiones), cambia
+1. Crea `<carpeta>/` copiando `rutina-precompeticion/` (nombre en minúsculas y guiones), cambia
    los textos del HTML y escribe `pie-instagram.txt`. Borra el `dist/` copiado.
 2. `node scripts/build.mjs <carpeta>` y revisa visualmente los PNG de `dist/`.
 3. Enseña las imágenes y el pie a la persona usuaria (SendUserFile) y espera su
