@@ -6,4 +6,4 @@
 #
 # Ejemplo (sin la almohadilla):
 # presion
-rutina-precompeticion
+miedo-lesion
