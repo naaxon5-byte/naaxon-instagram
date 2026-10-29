@@ -1,0 +1,37 @@
+{
+  "accion": "publicaciones",
+  "parametros": {
+    "limite": 3
+  },
+  "fecha": "2026-10-29T16:59:26.303Z",
+  "avisos": [],
+  "datos": [
+    {
+      "id": "18108527597255757",
+      "fecha": "2026-10-29T16:58:30+0000",
+      "tipo": "FEED",
+      "enlace": "https://www.instagram.com/p/DfFfXjYIHY9/",
+      "texto": "Te dan el alta, pero al volver algo no encaja: dudas al apoyar, evitas ciertos gestos, jue",
+      "me_gusta": 0,
+      "comentarios": 0
+    },
+    {
+      "id": "18201160210378844",
+      "fecha": "2026-10-23T10:29:53+0000",
+      "tipo": "REELS",
+      "enlace": "https://www.instagram.com/reel/De1VnfOIUpU/",
+      "texto": "Golpear fuerte es físico. Aguantar el combate es mental. 🥊",
+      "me_gusta": 18,
+      "comentarios": 1
+    },
+    {
+      "id": "18137531290729685",
+      "fecha": "2026-10-23T09:41:00+0000",
+      "tipo": "FEED",
+      "enlace": "https://www.instagram.com/p/De1QipPFh7j/",
+      "texto": "Los 3 minutos antes de competir pesan más de lo que parece.",
+      "me_gusta": 11,
+      "comentarios": 0
+    }
+  ]
+}
