@@ -1,37 +1,37 @@
 {
   "accion": "estadisticas",
   "parametros": {
-    "limite": 8,
-    "dias": 28
+    "limite": 10,
+    "dias": 14
   },
-  "fecha": "2026-10-21T17:24:04.853Z",
+  "fecha": "2026-10-29T16:40:19.978Z",
   "avisos": [],
   "datos": {
-    "periodo_dias": 28,
+    "periodo_dias": 14,
     "cuenta": {
       "reach": {
-        "value": 223
+        "value": 280
       },
       "views": {
-        "value": 799
+        "value": 811
       },
       "accounts_engaged": {
-        "value": 24
+        "value": 25
       },
       "total_interactions": {
-        "value": 54
+        "value": 62
       },
       "likes": {
-        "value": 44
+        "value": 40
       },
       "comments": {
-        "value": 0
+        "value": 1
       },
       "saves": {
-        "value": 2
+        "value": 0
       },
       "shares": {
-        "value": 0
+        "value": 7
       },
       "profile_links_taps": {
         "value": 0
@@ -39,21 +39,57 @@
     },
     "publicaciones": [
       {
+        "id": "18201160210378844",
+        "fecha": "2026-10-23T10:29:53+0000",
+        "tipo": "REELS",
+        "enlace": "https://www.instagram.com/reel/De1VnfOIUpU/",
+        "texto": "Golpear fuerte es físico. Aguantar el combate es mental. 🥊",
+        "me_gusta": 18,
+        "comentarios": 1,
+        "estadisticas": {
+          "reach": 250,
+          "views": 381,
+          "likes": 18,
+          "comments": 1,
+          "saved": 0,
+          "shares": 1,
+          "total_interactions": 22
+        }
+      },
+      {
+        "id": "18137531290729685",
+        "fecha": "2026-10-23T09:41:00+0000",
+        "tipo": "FEED",
+        "enlace": "https://www.instagram.com/p/De1QipPFh7j/",
+        "texto": "Los 3 minutos antes de competir pesan más de lo que parece.",
+        "me_gusta": 11,
+        "comentarios": 0,
+        "estadisticas": {
+          "reach": 49,
+          "views": 139,
+          "likes": 11,
+          "comments": 0,
+          "saved": 0,
+          "shares": 6,
+          "total_interactions": 21
+        }
+      },
+      {
         "id": "18420239761157617",
         "fecha": "2026-10-13T21:58:50+0000",
         "tipo": "REELS",
         "enlace": "https://www.instagram.com/reel/Dec05vsoKic/",
         "texto": "Tu winter arc no empieza en el gimnasio. Empieza en tu mente.",
-        "me_gusta": 18,
+        "me_gusta": 19,
         "comentarios": 0,
         "estadisticas": {
-          "reach": 207,
-          "views": 320,
-          "likes": 18,
+          "reach": 218,
+          "views": 343,
+          "likes": 19,
           "comments": 0,
           "saved": 2,
           "shares": 0,
-          "total_interactions": 24
+          "total_interactions": 26
         }
       },
       {
@@ -65,8 +101,8 @@
         "me_gusta": 10,
         "comentarios": 0,
         "estadisticas": {
-          "reach": 33,
-          "views": 92,
+          "reach": 37,
+          "views": 98,
           "likes": 10,
           "comments": 0,
           "saved": 0,
@@ -83,8 +119,8 @@
         "me_gusta": 17,
         "comentarios": 0,
         "estadisticas": {
-          "reach": 45,
-          "views": 139,
+          "reach": 49,
+          "views": 148,
           "likes": 17,
           "comments": 0,
           "saved": 1,
@@ -101,8 +137,8 @@
         "me_gusta": 21,
         "comentarios": 0,
         "estadisticas": {
-          "reach": 123,
-          "views": 290,
+          "reach": 127,
+          "views": 298,
           "likes": 21,
           "comments": 0,
           "saved": 1,
@@ -119,8 +155,8 @@
         "me_gusta": 14,
         "comentarios": 0,
         "estadisticas": {
-          "reach": 79,
-          "views": 201,
+          "reach": 82,
+          "views": 207,
           "likes": 14,
           "comments": 0,
           "saved": 0,
@@ -137,8 +173,8 @@
         "me_gusta": 19,
         "comentarios": 0,
         "estadisticas": {
-          "reach": 91,
-          "views": 246,
+          "reach": 94,
+          "views": 251,
           "likes": 19,
           "comments": 0,
           "saved": 0,
@@ -155,8 +191,8 @@
         "me_gusta": 14,
         "comentarios": 0,
         "estadisticas": {
-          "reach": 51,
-          "views": 190,
+          "reach": 55,
+          "views": 197,
           "likes": 14,
           "comments": 0,
           "saved": 0,
@@ -173,8 +209,8 @@
         "me_gusta": 20,
         "comentarios": 0,
         "estadisticas": {
-          "reach": 84,
-          "views": 238,
+          "reach": 88,
+          "views": 243,
           "likes": 20,
           "comments": 0,
           "saved": 0,
