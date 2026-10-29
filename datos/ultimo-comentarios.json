@@ -1,10 +1,23 @@
 {
   "accion": "comentarios",
   "parametros": {
-    "limite": 8,
-    "dias": 28
+    "limite": 10,
+    "dias": 14
   },
-  "fecha": "2026-10-21T17:24:15.019Z",
+  "fecha": "2026-10-29T16:40:32.242Z",
   "avisos": [],
-  "datos": []
+  "datos": [
+    {
+      "publicacion": {
+        "id": "18201160210378844",
+        "fecha": "2026-10-23T10:29:53+0000",
+        "tipo": "REELS",
+        "enlace": "https://www.instagram.com/reel/De1VnfOIUpU/",
+        "texto": "Golpear fuerte es físico. Aguantar el combate es mental. 🥊",
+        "me_gusta": 18,
+        "comentarios": 1
+      },
+      "comentarios": []
+    }
+  ]
 }
