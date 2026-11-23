@@ -33,7 +33,7 @@ concurrency:
 
 jobs:
   preparar:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       carpeta: ${{ steps.datos.outputs.carpeta }}
       modo: ${{ steps.datos.outputs.modo }}
@@ -62,7 +62,7 @@ jobs:
   construir:
     needs: preparar
     if: needs.preparar.outputs.carpeta != ''
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -83,7 +83,7 @@ jobs:
   # Instagram descarga las imágenes desde una URL pública: se sirven con GitHub Pages
   alojar:
     needs: construir
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
@@ -95,7 +95,7 @@ jobs:
 
   publicar:
     needs: [preparar, alojar]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment: instagram
     steps:
       - uses: actions/checkout@v4
