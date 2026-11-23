@@ -6,4 +6,4 @@
 #
 # Ejemplo (sin la almohadilla):
 # presion
-miedo-lesion
+objetivos-motivacion
